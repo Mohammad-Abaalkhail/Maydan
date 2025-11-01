@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&display=swap');
+
+@layer base {
+  html {
+    direction: rtl;
+  }
+  
+  body {
+    font-family: 'Cairo', 'Tajawal', 'Arial', sans-serif;
+    @apply bg-gray-50;
+    @apply text-gray-900;
+  }
+  
+  /* RTL-aware spacing utilities */
+  .rtl-ml-auto {
+    margin-left: auto;
+  }
+  
+  .rtl-mr-auto {
+    margin-right: auto;
+  }
+  
+  /* Focus indicators for accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-500;
+  }
+  
+  /* Ensure minimum touch target size (44x44px) */
+  button, a, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+

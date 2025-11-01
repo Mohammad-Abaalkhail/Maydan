@@ -1,0 +1,169 @@
+// Prisma schema for الميدان يا حميدان
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      String   @default("user") // user, admin
+  wins      Int      @default(0)
+  losses    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  playerRooms      PlayerRoom[]
+  votes            Vote[]
+  powerCardUsages  PowerCardUsage[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  nameAr      String
+  descriptionAr String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  cards     Card[]
+  questions Question[]
+  rooms     Room[]
+
+  @@map("categories")
+}
+
+model CardType {
+  id        String   @id @default(uuid())
+  nameAr    String
+  type      String   // e.g., "regular", "power"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  cards Card[]
+
+  @@map("card_types")
+}
+
+model Card {
+  id         String   @id @default(uuid())
+  textAr     String
+  categoryId String
+  cardTypeId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  cardType CardType  @relation(fields: [cardTypeId], references: [id], onDelete: Cascade)
+
+  @@map("cards")
+}
+
+model PowerCard {
+  id          String   @id @default(uuid())
+  nameAr      String   // e.g., "بساعدك", "نزل اللي بايدك"
+  code        String   @unique // e.g., "help", "drop_hand", "give_take", "skip_next", "ask_card"
+  descriptionAr String // Arabic description message
+  icon        String?  // Icon identifier or URL
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("power_cards")
+}
+
+model Question {
+  id         String   @id @default(uuid())
+  textAr     String
+  categoryId String
+  difficulty String?  // e.g., "easy", "medium", "hard"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@map("questions")
+}
+
+model Room {
+  id         String   @id @default(uuid())
+  code       String   @unique // Room code for joining (e.g., "8FK2")
+  hostId     String   // User ID of the host
+  state      String   @default("lobby") // lobby, dealing, playing, ended
+  categoryId String?
+  roundGoal  Int      @default(5) // Progress goal to win
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  category        Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  playerRooms     PlayerRoom[]
+  votes           Vote[]
+  powerCardUsages PowerCardUsage[]
+
+  @@map("rooms")
+}
+
+model PlayerRoom {
+  id        String   @id @default(uuid())
+  roomId    String
+  userId    String
+  seat      Int      // Seat position (0-based)
+  progress  Int      @default(0) // Current progress score
+  isTurn    Boolean  @default(false)
+  isReady   Boolean? // Optional ready status
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@unique([roomId, seat])
+  @@map("player_rooms")
+}
+
+model Vote {
+  id        String   @id @default(uuid())
+  roomId    String
+  turnId    String   // Identifier for the turn/answer being voted on
+  voterId   String   // User ID of the voter
+  vote      Boolean  // true = accept, false = reject
+  createdAt DateTime @default(now())
+
+  // Relations
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [voterId], references: [id], onDelete: Cascade)
+
+  @@map("votes")
+}
+
+model PowerCardUsage {
+  id        String   @id @default(uuid())
+  roomId    String
+  userId    String
+  type      String   // 'Skip' | 'DoubleVote'
+  turnId    String?  // Turn when used (for audit)
+  createdAt DateTime @default(now())
+
+  // Relations
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId]) // One power card per player per game
+  @@map("power_card_usage")
+}
+

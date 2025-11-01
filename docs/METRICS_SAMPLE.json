@@ -1,0 +1,108 @@
+{
+  "events": {
+    "power:use": {
+      "count": 42,
+      "avg": 45.2,
+      "min": 12.5,
+      "max": 89.3,
+      "p50": 38.7,
+      "p95": 78.5,
+      "p99": 85.2,
+      "errors": 0
+    },
+    "room:create": {
+      "count": 15,
+      "avg": 32.1,
+      "min": 18.3,
+      "max": 56.7,
+      "p50": 28.9,
+      "p95": 52.3,
+      "p99": 55.1,
+      "errors": 0
+    },
+    "room:join": {
+      "count": 87,
+      "avg": 28.4,
+      "min": 15.2,
+      "max": 67.8,
+      "p50": 25.1,
+      "p95": 58.2,
+      "p99": 64.5,
+      "errors": 0
+    },
+    "game:start": {
+      "count": 12,
+      "avg": 125.3,
+      "min": 89.2,
+      "max": 198.7,
+      "p50": 112.5,
+      "p95": 178.9,
+      "p99": 192.3,
+      "errors": 0
+    },
+    "answer:submit": {
+      "count": 156,
+      "avg": 38.7,
+      "min": 21.3,
+      "max": 94.5,
+      "p50": 35.2,
+      "p95": 76.8,
+      "p99": 89.2,
+      "errors": 0
+    },
+    "vote:cast": {
+      "count": 203,
+      "avg": 42.1,
+      "min": 19.8,
+      "max": 97.3,
+      "p50": 38.5,
+      "p95": 82.4,
+      "p99": 91.7,
+      "errors": 0
+    },
+    "game:state": {
+      "count": 534,
+      "avg": 35.8,
+      "min": 12.1,
+      "max": 78.9,
+      "p50": 32.4,
+      "p95": 68.2,
+      "p99": 74.5,
+      "errors": 0
+    }
+  },
+  "overall": {
+    "count": 1049,
+    "avg": 38.5,
+    "min": 12.1,
+    "max": 198.7,
+    "p50": 34.2,
+    "p95": 82.3,
+    "p99": 91.2,
+    "errors": 0,
+    "errorRate": 0.0
+  },
+  "connections": {
+    "total": 250,
+    "active": 198,
+    "disconnected": 52,
+    "successRate": 79.2,
+    "avgConnectionTime": 1250.5
+  },
+  "rateLimiting": {
+    "apiRequests": {
+      "total": 5432,
+      "rateLimited": 12,
+      "rateLimitRate": 0.22
+    },
+    "websocketConnections": {
+      "total": 250,
+      "rateLimited": 3,
+      "rateLimitRate": 1.2
+    }
+  },
+  "timestamp": "2025-01-11T14:32:15.234Z",
+  "uptime": 3600.5,
+  "version": "1.0.0"
+}
+

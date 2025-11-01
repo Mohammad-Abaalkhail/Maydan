@@ -1,0 +1,9 @@
+#!/bin/bash
+# Execute deployment with repository URL
+
+export REPO_URL="https://github.com/Mohammad-Abaalkhail/Maydan.git"
+export JWT_SECRET="XdvyNs1K0ChtQukcUZpF8RrfoJ6YgIHEWba4i5Ol2qm9TDLSVxnPMGz7wje3BA"
+export DATABASE_URL="mysql://almaydan_user:rndmbKxvUqYe4tpVWaf5OGP7s2yzgB6LMC9HhDc0SZk8X3wuEIJFlTo1AQjNiR@mysql:3306/almaydan_db"
+
+bash DEPLOY_NOW_COMPLETE.sh
+
